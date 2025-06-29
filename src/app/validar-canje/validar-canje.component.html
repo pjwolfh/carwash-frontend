@@ -1,0 +1,70 @@
+<div class="container py-4" style="background-color: #eeeeee; min-height: 100vh;">
+  <!-- Encabezado con botón de regreso y settings -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-primary m-0">
+      📲 Validar y Entregar Canje
+    </h4>
+
+    <div class="ms-auto d-flex gap-2">
+      <button class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
+        style="width: 40px; height: 40px;" (click)="regresarSucursales()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+
+      <app-settings-menu></app-settings-menu>
+    </div>
+  </div>
+
+  <!-- 📷 Escáner QR -->
+  <zxing-scanner
+    [formats]="formatsEnabled"
+    [device]="selectedDevice"
+    (scanSuccess)="onQrScanned($event)"
+    (scanError)="onScanError($event)"
+    [torch]="false"
+    [tryHarder]="true"
+    style="width: 100%; max-width: 320px; margin: auto; display: block;"
+  ></zxing-scanner>
+
+  <!-- Campo manual -->
+  <div class="mb-3 mt-4">
+    <label for="codigo" class="form-label fw-semibold">Código de validación</label>
+    <input
+      type="text"
+      id="codigo"
+      class="form-control"
+      [(ngModel)]="codigo"
+      (keyup.enter)="buscarCanje()"
+      placeholder="Ej. XH92JK"
+    />
+  </div>
+
+  <div class="d-grid gap-2">
+    <button class="btn btn-outline-primary" (click)="buscarCanje()">🔍 Buscar Canje</button>
+  </div>
+
+  <!-- Resultado -->
+  <div *ngIf="canje" class="card mt-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title text-success fw-bold">🎁 Canje encontrado</h5>
+      <p><strong>Cliente:</strong> {{ canje.user_id }}</p>
+      <p><strong>Regalo:</strong> {{ canje.nombre_regalo || 'No disponible' }}</p>
+      <p><strong>Estado actual:</strong>
+        <span
+          [ngClass]="{
+            'badge bg-warning text-dark': canje.estado === 'pendiente',
+            'badge bg-success': canje.estado === 'entregado'
+          }"
+        >
+          {{ canje.estado }}
+        </span>
+      </p>
+
+      <div class="d-grid gap-2 mt-3" *ngIf="canje.estado === 'pendiente'">
+        <button class="btn btn-success" (click)="entregarCanje()">
+          ✅ Marcar como entregado
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

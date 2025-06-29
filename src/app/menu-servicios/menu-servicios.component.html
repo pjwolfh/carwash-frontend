@@ -1,0 +1,119 @@
+<div class="container py-4" style="background-color: #eeeeee; min-height: 100vh;">
+
+  <!-- ENCABEZADO -->
+  <div class="d-flex align-items-center mb-4">
+    <img src="assets/images/user.jpg" alt="Perfil" class="rounded-circle me-3" width="60" height="60">
+    <div>
+      <h6 class="mb-0 text-secondary">Administrando</h6>
+      <h5 class="fw-bold" style="color: #f5c518;">Sucursal {{ idSucursal }}</h5>
+    </div>
+    <div class="ms-auto d-flex gap-2">
+      <button class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
+        style="width: 40px; height: 40px;" (click)="regresar()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+
+      <app-settings-menu></app-settings-menu>
+    </div>
+  </div>
+
+  <!-- BOTONES OPCIONES -->
+  <div class="d-flex gap-2 mb-4">
+    <button class="btn btn-secondary px-4 py-2 fw-semibold rounded-pill" style="font-size: 0.75rem;">OPCIÓN 1</button>
+    <button class="btn btn-secondary px-4 py-2 fw-semibold rounded-pill" style="font-size: 0.75rem;">OPCIÓN 2</button>
+  </div>
+
+  <!-- CAJA BLANCA PRINCIPAL -->
+  <div class="bg-white text-dark rounded-4 p-4 shadow-sm mb-4">
+
+    <!-- ➕ BOTÓN AGREGAR SERVICIO -->
+    <div class="text-center mb-4">
+      <div class="btn fw-bold rounded-pill px-5 py-2 text-center mx-auto d-block"
+        style="background-color: #f5c518; width: fit-content;" (click)="abrirModalAgregar()">
+        <div>Agregar Servicio <i class="bi bi-plus-circle ms-2"></i></div>
+        <small class="text-dark d-block mt-1" style="font-size: 0.75rem;">
+          Total: {{ servicios.length }} servicios
+        </small>
+      </div>
+    </div>
+
+    <!-- 🛠 LISTA DE SERVICIOS -->
+    <div class="container">
+      <div class="row">
+        <div class="col-12 mb-3" *ngFor="let servicio of servicios; let i = index">
+          <div class="p-3 rounded-4 d-flex justify-content-between align-items-center shadow-sm"
+            style="background-color: #f2f2f2;">
+
+            <div class="d-flex align-items-center">
+              <img *ngIf="servicio.imagen" [src]="'http://localhost:3000' + servicio.imagen" alt="Imagen Servicio"
+                 width="50" height="50" class="rounded-circle me-3">
+
+              <div>
+                <h6 class="mb-1 fw-semibold">{{ servicio.nombre_servicio }}</h6>
+                <small class="text-muted">${{ servicio.precio }} - {{ servicio.detalles }}</small>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <!-- Editar -->
+              <button class="btn btn-primary btn-sm rounded-circle" (click)="editarServicio(i)">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+
+              <!-- Eliminar -->
+              <button class="btn btn-danger btn-sm rounded-circle" (click)="eliminarServicio(i)">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 🧾 MODAL AGREGAR/EDITAR SERVICIO -->
+  <div class="modal fade show d-block" tabindex="-1" *ngIf="mostrarModalAgregar"
+    style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4 rounded-4 border-0">
+        <h5 class="fw-bold mb-3">{{ modoEditar ? 'Editar Servicio' : 'Agregar Nuevo Servicio' }}</h5>
+
+        <div class="mb-3">
+          <label class="form-label">Nombre del Servicio</label>
+          <input type="text" class="form-control" [(ngModel)]="nuevoServicio.nombre">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Precio</label>
+          <input type="number" class="form-control" [(ngModel)]="nuevoServicio.precio">
+        </div>
+<div class="mb-3">
+  <label class="form-label">Puntos que otorga!</label>
+  <input type="number" class="form-control" [(ngModel)]="nuevoServicio.puntos">
+</div>
+
+
+
+        <div class="mb-3">
+          <label class="form-label">Detalles</label>
+          <textarea class="form-control" [(ngModel)]="nuevoServicio.detalles" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Imagen</label>
+          <input type="file" class="form-control" (change)="cargarImagen($event)">
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button class="btn btn-secondary" (click)="mostrarModalAgregar = false">Cancelar</button>
+          <button class="btn btn-success fw-bold" (click)="guardarServicio()">
+            {{ modoEditar ? 'Actualizar' : 'Agregar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

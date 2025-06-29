@@ -1,0 +1,203 @@
+<!-- FONDO NEGRO GLOBAL -->
+<div class="container py-4" style="background-color: #000; min-height: 100vh;">
+    <div class="bg-black text-dark rounded-4 p-4 shadow-sm mb-4">
+      <div class="d-flex align-items-center mb-4">
+        <img src="assets/images/user.jpg" alt="Perfil" class="rounded-circle me-3" width="60" height="60">
+        <div>
+          <h6 class="mb-0 text-secondary">Welcome Back,</h6>
+          <h5 class="fw-bold text-light">{{ usuario?.nombre || 'Usuario' }}</h5>
+        </div>
+        <div class="ms-auto">
+                  <!-- Botón Settings REEMPLAZADO -->
+<app-settings-menu></app-settings-menu>
+        </div>
+      </div>
+  
+      <div class="d-flex gap-2 mb-4">
+        <button class="btn btn-secondary px-4 py-2 fw-semibold rounded-pill" style="font-size: 0.75rem;">OPCIÓN 1</button>
+        <button class="btn btn-secondary px-4 py-2 fw-semibold rounded-pill" style="font-size: 0.75rem;">OPCIÓN 2</button>
+      </div>
+  
+      <!-- BOTÓN AGREGAR CLIENTE -->
+      <div class="bg-warning rounded-4 p-3 mb-2 d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="mb-0 fw-bold">Agregar Cliente</h5>
+          <small>{{ clientes.length }} Clientes actualmente</small>
+        </div>
+        <button class="btn btn-dark rounded-circle" (click)="abrirModalAgregar()">
+          <i class="bi bi-plus-lg"></i>
+        </button>
+      </div>
+    </div>
+  
+    <!-- BLOQUE BLANCO -->
+    <div class="bg-white rounded-4 p-3 shadow-sm">
+      <div class="input-group mb-3">
+        <input type="text" [(ngModel)]="filtro" placeholder="Buscar Cliente"
+          class="form-control rounded-start-pill border-0">
+        <span class="input-group-text bg-white rounded-end-pill"><i class="bi bi-search"></i></span>
+      </div>
+  
+      <div style="max-height: 400px; overflow-y: auto;" class="d-grid gap-3">
+        <div class="d-grid gap-3">
+          <div *ngFor="let cliente of clientes | filtroNombre:filtro"
+            class="d-flex align-items-center justify-content-between p-3 rounded-4 shadow-sm"
+            style="background: linear-gradient(90deg, #000, #444); cursor: pointer;" (click)="verCliente(cliente)">
+            <div>
+              <strong class="text-white">{{ cliente.nombre_empresa }}</strong><br />
+              <small class="text-light">{{ cliente.nombre_contacto }}</small>
+            </div>
+  
+            <div class="dropdown" (click)="$event.stopPropagation()">
+              <button class="btn btn-dark btn-sm rounded-circle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn">
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2" (click)="abrirFicha(cliente)">
+                    <i class="bi bi-eye-fill text-info"></i> Ver ficha técnica
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2" (click)="editarCliente(cliente)">
+                    <i class="bi bi-pencil-fill text-warning"></i> Editar cliente
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 text-danger"
+                    (click)="confirmarEliminacion(cliente)">
+                    <i class="bi bi-trash-fill"></i> Eliminar cliente
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- MODAL FICHA TÉCNICA -->
+    <div *ngIf="mostrarModalFicha" class="modal fade show d-block fadeIn" style="background-color: rgba(0,0,0,0.5);">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark text-white rounded-4 p-4">
+          <div class="modal-header border-0">
+            <h5 class="modal-title text-warning">🧾 Ficha técnica: {{ clienteSeleccionado?.nombre_empresa }}</h5>
+            <button class="btn-close btn-close-white" (click)="mostrarModalFicha = false"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>📞 Contacto:</strong> {{ clienteSeleccionado?.nombre_contacto }}</p>
+            <p><strong>📱 Teléfono:</strong> {{ clienteSeleccionado?.telefono }}</p>
+            <p><strong><i class="bi bi-envelope"></i> Correo contacto:</strong> {{ clienteSeleccionado?.email }}</p>
+            <p><strong><i class="bi bi-person-badge"></i> Rol:</strong> {{ usuarioDelCliente?.rol || 'N/A' }}</p>
+  
+            <button class="btn btn-outline-danger btn-sm" (click)="clienteSeleccionado && resetearPassword(clienteSeleccionado)">
+              🔁 Resetear contraseña
+            </button>
+  
+            <hr />
+            <h6 class="text-warning">📊 Ventas del día</h6>
+            <p><strong>Total ventas:</strong> {{ ventasHoy.cantidad }}</p>
+            <p><strong>Total Q:</strong> Q{{ ventasHoy.total ? (+ventasHoy.total).toFixed(2) : '0.00' }}</p>
+  
+            <hr />
+            <h6 class="text-warning">🧼 Servicios registrados</h6>
+            <ul *ngIf="serviciosCliente.length > 0">
+              <li *ngFor="let s of serviciosCliente">{{ s.nombre_servicio }} – Q{{ s.precio }}</li>
+            </ul>
+            <p *ngIf="serviciosCliente.length === 0">Sin servicios registrados.</p>
+          </div>
+          <div class="modal-footer border-0">
+            <button class="btn btn-outline-light" (click)="mostrarModalFicha = false">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- MODAL AGREGAR CLIENTE -->
+    <div *ngIf="mostrarModalAgregar" class="modal fade show d-block" style="background-color: rgba(0, 0, 0, 0.5);">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 rounded-4 border-0">
+          <h5 class="fw-bold mb-3">Agregar Nuevo Cliente</h5>
+          <div class="mb-3">
+            <label class="form-label">Nombre de la Empresa</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoCliente.nombre_empresa">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nombre del Contacto</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoCliente.nombre_contacto">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" [(ngModel)]="nuevoCliente.telefono">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="nuevoCliente.email">
+          </div>
+          <div class="mb-3 position-relative">
+            <label class="form-label">Contraseña</label>
+            <input [type]="mostrarPassword ? 'text' : 'password'" class="form-control" [(ngModel)]="nuevoCliente.password">
+            <button type="button" class="btn btn-sm position-absolute top-50 end-0 translate-middle-y me-2" (click)="mostrarPassword = !mostrarPassword">
+              <i [class]="mostrarPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Rol</label>
+            <select class="form-select" [(ngModel)]="nuevoCliente.rol_id">
+
+              <option [value]="3">Dueño</option>
+              <option [value]="2">Admin</option>
+              <option [value]="1">Cliente Final</option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-end mt-4 gap-2">
+            <button class="btn btn-secondary" (click)="cerrarModalAgregar()">Cancelar</button>
+            <button class="btn btn-success fw-bold" (click)="guardarCliente()">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- MODAL EDITAR CLIENTE -->
+    <div *ngIf="mostrarModalEditar" class="modal fade show d-block" style="background-color: rgba(0, 0, 0, 0.5);">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 rounded-4 border-0">
+          <h5 class="fw-bold mb-3">Editar Cliente</h5>
+          <div class="mb-3">
+            <label class="form-label">Nombre de la Empresa</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoCliente.nombre_empresa">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nombre del Contacto</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoCliente.nombre_contacto">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" [(ngModel)]="nuevoCliente.telefono">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Correo</label>
+            <input type="email" class="form-control" [(ngModel)]="nuevoCliente.email">
+          </div>
+          <div class="d-flex justify-content-end mt-4 gap-2">
+            <button class="btn btn-secondary" (click)="cerrarModalEditar()">Cancelar</button>
+            <button class="btn btn-warning fw-bold" (click)="guardarCliente()">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarConfirmacionEliminacion" class="modal-backdrop d-flex align-items-center justify-content-center">
+    <div class="modal-content p-4 rounded shadow bg-white text-dark" style="max-width: 400px;">
+      <h5 class="mb-3 text-danger">¿Eliminar cliente?</h5>
+      <p>Esto eliminará todas sus sucursales, empleados y ventas.</p>
+      <p>Para confirmar, escribí <strong>123456</strong>:</p>
+      <input class="form-control mb-3" [(ngModel)]="codigoVerificacion" placeholder="Ingrese código" />
+      <button class="btn btn-danger me-2" (click)="eliminarConfirmado()">Eliminar</button>
+      <button class="btn btn-secondary" (click)="mostrarConfirmacionEliminacion = false">Cancelar</button>
+    </div>
+  </div>
+  
+  

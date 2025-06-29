@@ -1,0 +1,100 @@
+
+:host {
+  position: relative;
+  z-index: 1; /* o incluso 0 */
+}
+
+.car-slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12rem;
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: visible; /* 👈 esto permite que el carro se salga del wrapper sin cortarse */
+  }
+  
+  .car-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .car-img {
+    width: 100%;
+    transform:  scale(2.6);
+    transform-origin: center center;
+    transition: transform 0.3s ease;
+    margin-left: -45%;
+      
+  }
+  
+  .package-details-float {
+    position: absolute;
+    bottom: -11.5rem; /* más controlado que usar top: 85% */
+    right: 0.1rem;
+    width: 50vw; /* ancho relativo al viewport */
+    max-width: 280px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 0.8rem 1rem;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+  }
+  
+  .package-details-float .title {
+    font-weight: 900;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .package-details-float ul {
+    list-style-type: disc;
+    padding-left: 1.2rem;
+    margin: 0;
+    font-size: 0.85rem;
+  }
+  
+  .service-number {
+    color: #FFD700; /* Amarillo dorado */
+    font-weight: 800;
+    font-size: 3rem;
+    text-align: center;
+    margin: 0;
+  }
+  
+  .car-slider-container,
+  .car-wrapper,
+  .car-img {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  
+  /* 🔄 Media Queries para adaptar según tamaño */
+@media (max-width: 400px) {
+    .package-details-float {
+      right: 0.5rem;
+      left: 9rem;
+      width: 50vw;
+      bottom: 13rem;
+    }
+  
+    .service-number {
+      font-size: 1.5rem;
+    }
+  
+    .package-details-float .title {
+      font-size: 1.1rem;
+    }
+
+    .package-details-float ul {
+        
+        
+        
+        font-size: 0.7rem;
+      }
+  }

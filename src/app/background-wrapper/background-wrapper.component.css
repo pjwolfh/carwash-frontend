@@ -1,0 +1,12 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background-image: url('https://img.freepik.com/vector-gratis/fondo-abstracto-oscuro_1017-1899.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 1rem;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+  

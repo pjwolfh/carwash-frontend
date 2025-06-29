@@ -1,0 +1,48 @@
+.login-container {
+    /* background-image: url('assets/fondo-autos.jpg'); */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .login-box, .registro-box {
+    background: rgba(0, 0, 0, 0.75);
+    padding: 2rem;
+    border-radius: 1rem;
+    color: white;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+  }
+  
+  .logo {
+    width: 100px;
+    margin-bottom: 1rem;
+  }
+  
+  input {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.7rem;
+    border-radius: 8px;
+    border: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #FFD700;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  
+  .register-text {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+  }
+  

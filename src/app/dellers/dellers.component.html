@@ -1,0 +1,92 @@
+<div class="container py-4" style="background-color: #eeeeee; min-height: 100vh;">
+
+<!-- ENCABEZADO -->
+<div class="d-flex align-items-center mb-4">
+  <img src="assets/images/user.jpg" alt="Perfil" class="rounded-circle me-3" width="60" height="60">
+  
+  <div>
+    <h6 class="mb-0 text-secondary">Welcome Back,</h6>
+    <h5 class="fw-bold" style="color: #f5c518;">{{ usuario?.nombre || 'Usuario' }}</h5>
+    <p class="text-muted mt-1" *ngIf="sucursal?.nombre_sucursal">
+      {{ sucursal.nombre_sucursal }}
+    </p>
+  </div>
+
+  <div class="ms-auto d-flex gap-2">
+    <button class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
+      style="width: 40px; height: 40px;" (click)="volverALista()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <app-settings-menu></app-settings-menu>
+  </div>
+</div>
+
+
+  <!-- BOTÓN AGREGAR / CANCELAR -->
+  <div class="text-center mb-4">
+    <div 
+      class="btn fw-bold rounded-pill px-5 py-2 text-center mx-auto d-block"
+      [ngClass]="{ 'btn-danger': editandoId, 'btn-warning': !editandoId }"
+      style="width: fit-content;"
+      (click)="abrirFormulario()"
+    >
+      <div *ngIf="!editandoId">Agregar Deller <i class="bi bi-plus-circle ms-2"></i></div>
+      <div *ngIf="editandoId">Cancelar edición <i class="bi bi-x-circle ms-2"></i></div>
+      <small class="text-dark d-block mt-1" style="font-size: 0.75rem;">
+        Total: {{ dellers.length }} registrados
+      </small>
+    </div>
+  </div>
+
+  <!-- FORMULARIO -->
+  <form *ngIf="mostrarFormulario" (ngSubmit)="guardarDeller()" [formGroup]="formDeller" class="mb-4">
+    <div class="row mb-3">
+      <div class="col-md-4 mb-2">
+        <input class="form-control" placeholder="Nombre" formControlName="nombre" required>
+      </div>
+      <div class="col-md-4 mb-2">
+        <input class="form-control" placeholder="Teléfono" formControlName="telefono">
+      </div>
+      <div class="col-md-4 mb-2">
+        <input class="form-control" placeholder="Correo" formControlName="correo">
+      </div>
+    </div>
+    <div class="text-end">
+      <button class="btn btn-success fw-bold rounded-pill px-4" type="submit">
+        {{ editandoId ? 'Actualizar' : 'Guardar' }}
+      </button>
+    </div>
+  </form>
+
+  <!-- LISTA DE DELLERS -->
+  <div *ngIf="dellers.length === 0" class="text-center text-muted">
+    No hay dellers registrados.
+  </div>
+
+  <div *ngFor="let d of dellers" class="bg-white rounded-4 p-3 shadow-sm mb-3">
+    <div class="d-flex justify-content-between align-items-start">
+
+      <!-- Información del Deller -->
+      <div>
+        <h5 class="mb-1">{{ d.nombre }}</h5>
+        <p class="mb-2 text-muted">Tel: {{ d.telefono }} — {{ d.correo }}</p>
+        <button class="btn btn-warning fw-bold" (click)="irABitacora(d.id_deller)">
+          Ver Bitácora <i class="bi bi-journal-text ms-1"></i>
+        </button>
+      </div>
+
+      <!-- Menú de opciones (3 puntitos) -->
+      <div class="dropdown">
+        <button class="btn btn-sm btn-light rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" (click)="editarDeller(d)">✏️ Editar</a></li>
+          <li><a class="dropdown-item text-danger" (click)="eliminarDeller(d.id_deller)">🗑️ Eliminar</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>

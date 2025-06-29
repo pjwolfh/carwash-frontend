@@ -1,0 +1,36 @@
+<div class="container py-4">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-primary">Control de Horarios</h2>
+      <p class="text-muted">Marca tu horario de trabajo de forma segura</p>
+    </div>
+  
+    <!-- Información del Empleado -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body text-center">
+        <h5 class="card-title fw-bold">{{ empleado?.nombre }}</h5>
+        <p class="card-text text-muted">Sucursal: {{ empleado?.nombreSucursal || 'N/A' }}</p>
+      </div>
+    </div>
+  
+    <!-- Botones de Acción -->
+    <div class="d-grid gap-3">
+      <button class="btn btn-success fw-bold py-3" (click)="marcarEntrada()">
+        🕒 Marcar Entrada
+      </button>
+      <button class="btn btn-warning fw-bold py-3" (click)="marcarInicioLunch()">
+        🍴 Iniciar Lunch
+      </button>
+      <button class="btn btn-info fw-bold py-3" (click)="marcarRegresoLunch()">
+        🚶‍♂️ Regresar de Lunch
+      </button>
+      <button class="btn btn-danger fw-bold py-3" (click)="marcarSalida()">
+        🔚 Marcar Salida
+      </button>
+    </div>
+  
+    <!-- Último Movimiento -->
+    <div *ngIf="ultimoMovimiento" class="alert alert-primary mt-4 text-center" role="alert">
+      Última acción: <strong>{{ ultimoMovimiento }}</strong>
+    </div>
+  </div>
+  

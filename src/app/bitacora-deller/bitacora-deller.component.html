@@ -1,0 +1,130 @@
+<div class="container py-4" style="background-color: #eeeeee; min-height: 100vh;">
+
+  <!-- ENCABEZADO -->
+  <div class="d-flex align-items-center mb-4">
+    <img src="assets/images/user.jpg" alt="Perfil" class="rounded-circle me-3" width="60" height="60">
+    <div>
+      <h6 class="mb-0 text-secondary">Bitácora de Servicios</h6>
+      <h5 class="fw-bold" style="color: #f5c518;">Deller: {{ deller?.nombre || '...' }}</h5>
+    </div>
+    <div class="ms-auto d-flex gap-2">
+      <button class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
+        style="width: 40px; height: 40px;" (click)="volverALista()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <app-settings-menu></app-settings-menu>
+    </div>
+  </div>
+
+  <!-- CAJA BLANCA PRINCIPAL -->
+  <div class="bg-white text-dark rounded-4 p-4 shadow-sm mb-4">
+
+    <!-- 🔽 BOTÓN EXPORTAR PDF -->
+    <div class="text-end mb-3">
+      <button class="btn btn-outline-dark rounded-pill fw-bold" (click)="exportarBitacorasPDF()">
+        Exportar PDF <i class="bi bi-file-earmark-pdf ms-2"></i>
+      </button>
+    </div>
+
+    <!-- ➕ BOTÓN AGREGAR NUEVA BITÁCORA -->
+    <div class="text-center mb-4">
+      <div class="btn fw-bold rounded-pill px-5 py-2 text-center mx-auto d-block"
+        style="background-color: #f5c518; width: fit-content;" (click)="mostrarFormulario = !mostrarFormulario">
+        Agregar Servicio <i class="bi bi-plus-circle ms-2"></i>
+      </div>
+    </div>
+
+
+    <!-- FORMULARIO DE BITÁCORA -->
+    <form *ngIf="mostrarFormulario" (ngSubmit)="guardarBitacora()" [formGroup]="formBitacora" class="mb-4">
+
+      <div class="row mb-3">
+        <div class="col-md-4 mb-2">
+          <input class="form-control" placeholder="Vehículo" formControlName="vehiculo">
+        </div>
+        <div class="col-md-4 mb-2">
+          <input class="form-control" placeholder="BIN" formControlName="bin">
+        </div>
+        <div class="col-md-4 mb-2">
+          <input class="form-control" placeholder="Precio" type="number" formControlName="precio">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <textarea class="form-control" rows="3" placeholder="Adicionales" formControlName="adicionales"></textarea>
+      </div>
+
+      <!-- Subida de fotos -->
+      <div class="row text-center mb-4">
+        <div class="col-6 col-md-3 mb-3" *ngFor="let index of [2,1,3,4]">
+          <div class="card border-0 shadow-sm p-2">
+            <h6 class="mb-2">Vista del vehículo</h6>
+            <img [src]="previews[index - 1] || 'assets/images/vista' + index + '.png'" class="img-fluid rounded"
+              alt="Vista del vehículo">
+            <label class="btn btn-dark fw-bold rounded-pill mt-2">
+              Subir {{ nombreFoto(index) }}
+              <input type="file" accept="image/*" hidden (change)="onIndividualFileChange($event, index)">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-success fw-bold px-4 rounded-pill" type="submit">Guardar</button>
+      </div>
+    </form>
+
+    <!-- MENSAJE SI NO HAY REGISTROS -->
+    <div *ngIf="bitacoras.length === 0" class="text-center text-muted py-4">
+      No hay registros en la bitácora para este deller.
+    </div>
+
+    <!-- LISTADO DE REGISTROS -->
+    <div *ngIf="bitacoras.length > 0">
+      <div class="row g-3">
+        <div class="col-12" *ngFor="let b of bitacoras">
+          <div class="p-3 rounded-4 shadow-sm" style="background-color: #f9f9f9;">
+            <div class="d-flex justify-content-between align-items-start">
+
+              <!-- INFORMACIÓN -->
+              <div>
+                <p class="mb-1 text-muted" style="font-size: 0.85rem;">
+                  {{ b.fecha_registro | date:'dd/MM/yyyy - hh:mm a' }}
+                </p>
+
+                <h6 class="mb-1 fw-semibold text-dark">{{ b.vehiculo }}</h6>
+                <p class="mb-0 text-muted"><strong>BIN:</strong> {{ b.bin }}</p>
+                <p class="mb-0 text-muted"><strong>Precio:</strong> ${{ b.precio }}</p>
+                <p class="mb-0 text-muted"><strong>Adicionales:</strong> {{ b.adicionales || 'N/A' }}</p>
+              </div>
+
+              <!-- IMÁGENES -->
+              <div class="d-flex flex-wrap gap-2 justify-content-end" (click)="verImagenes(b)">
+                <img *ngIf="b.foto1" [src]="b.foto1" class="img-thumbnail" style="max-width: 40px; cursor:pointer;">
+                <img *ngIf="b.foto2" [src]="b.foto2" class="img-thumbnail" style="max-width: 40px; cursor:pointer;">
+                <img *ngIf="b.foto3" [src]="b.foto3" class="img-thumbnail" style="max-width: 40px; cursor:pointer;">
+                <img *ngIf="b.foto4" [src]="b.foto4" class="img-thumbnail" style="max-width: 40px; cursor:pointer;">
+              </div>
+
+              <!-- BOTÓN DE TRES PUNTOS -->
+              <div class="dropdown align-self-start ms-2">
+                <button class="btn btn-sm btn-light rounded-circle" type="button" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a class="dropdown-item text-danger" (click)="eliminarBitacora(b)">
+                      🗑️ Eliminar
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

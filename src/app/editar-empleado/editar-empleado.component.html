@@ -1,0 +1,75 @@
+<div class="container py-4" style="background-color: #eeeeee; min-height: 100vh;">
+    <!-- ENCABEZADO -->
+    <div class="d-flex align-items-center mb-4">
+      <img src="assets/images/user.jpg" alt="Perfil" class="rounded-circle me-3" width="60" height="60">
+      <div>
+        <h6 class="mb-0 text-secondary">Editando</h6>
+        <h5 class="fw-bold" style="color: #f5c518;">{{ empleado.nombre_empleado }}</h5>
+      </div>
+      <div class="ms-auto">
+        <button class="btn btn-light rounded-circle p-2" (click)="regresar()">
+          <i class="bi bi-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+  
+    <!-- FORMULARIO -->
+    <form (ngSubmit)="guardarCambios()">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Nombre</label>
+          <input class="form-control" [(ngModel)]="empleado.nombre_empleado" name="nombre_empleado" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Correo</label>
+          <input class="form-control" type="email" [(ngModel)]="empleado.correo" name="correo" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Teléfono</label>
+          <input class="form-control" [(ngModel)]="empleado.telefono" name="telefono" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Rol</label>
+            <select class="form-select" [(ngModel)]="empleado.rol" name="rol" required>
+              <option value="">Seleccione un rol</option>
+              <option value="Lavador">Lavador</option>
+              <option value="Cajera">Cajera</option>
+              <option value="Supervisor">Supervisor</option>
+            </select>
+          </div>
+        <div class="col-md-6">
+          <label class="form-label">Pago por hora (Q)</label>
+          <input class="form-control" type="number" [(ngModel)]="empleado.pago_por_hora" name="pago_por_hora">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Hora de entrada</label>
+            <input type="time" class="form-control" [(ngModel)]="empleado.hora_entrada" name="hora_entrada">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Hora de salida</label>
+            <input type="time" class="form-control" [(ngModel)]="empleado.hora_salida" name="hora_salida">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Día de descanso</label>
+            <select class="form-select" [(ngModel)]="empleado.dia_descanso" name="dia_descanso">
+              <option value="" disabled>Selecciona un día</option>
+              <option>Lunes</option>
+              <option>Martes</option>
+              <option>Miércoles</option>
+              <option>Jueves</option>
+              <option>Viernes</option>
+              <option>Sábado</option>
+              <option>Domingo</option>
+            </select>
+          </div>
+          
+          
+      </div>
+  
+      <div class="text-center mt-4">
+        <button class="btn btn-success px-4 py-2 fw-bold">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,91 @@
+.sucursales-wrapper {
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .sucursales-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .titulo-bienvenida {
+    margin: 0;
+    font-weight: 400;
+    color: #555;
+  }
+  
+  .nombre-usuario {
+    margin-top: 0;
+    color: #e2a100;
+    font-weight: bold;
+  }
+  
+  .opciones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .btn-opcion {
+    padding: 5px 15px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 20px;
+  }
+  
+  .balance-diario {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .tarjeta-agregar {
+    background: #fcd116;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .btn-agregar {
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  .cantidad-sucursales {
+    font-size: 13px;
+    color: #333;
+    margin-top: 5px;
+  }
+  
+  .lista-sucursales {
+    margin-top: 20px;
+  }
+  
+  .sucursal {
+    background: #f4f4f4;
+    padding: 12px 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .btn-opciones {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,30 @@
+<div class="container my-4">
+  <h4 class="text-center fw-bold text-primary mb-4">🎁 Recompensas Disponibles</h4>
+
+  <div class="row g-3">
+    <div class="col-md-4" *ngFor="let regalo of regalos">
+      <div class="card shadow-sm h-100">
+        <img [src]="apiUrl + regalo.imagen" class="card-img-top" alt="{{ regalo.nombre }}" style="height: 180px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title text-center fw-bold">{{ regalo.nombre }}</h5>
+          <p class="card-text text-center text-muted">{{ regalo.descripcion }}</p>
+
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <span class="fw-bold text-primary">🎯 {{ regalo.puntos_requeridos }} pts</span>
+
+            <button 
+              class="btn btn-warning btn-sm"
+              [disabled]="usuario.puntos < regalo.puntos_requeridos || estaCargando(regalo.id)"
+              (click)="canjear(regalo)">
+              {{ estaCargando(regalo.id) ? 'Procesando...' : 'Canjear' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="regalos.length === 0" class="text-center text-muted mt-4">
+    No hay recompensas disponibles en este momento.
+  </div>
+</div>

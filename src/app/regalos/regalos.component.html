@@ -1,0 +1,84 @@
+<div class="container py-4" style="background-color: #eeeeee; min-height: 100vh;">
+
+  <!-- ENCABEZADO -->
+  <div class="d-flex align-items-center mb-4 bg-white rounded-4 p-3 shadow-sm">
+    <img src="assets/images/user.jpg" alt="Perfil" class="rounded-circle me-3" width="60" height="60">
+    <div>
+      <h6 class="mb-0 text-secondary">Gestión de Regalos</h6>
+      <h5 class="fw-bold" style="color: #f5c518;">Administrador</h5>
+    </div>
+    <div class="ms-auto d-flex gap-2">
+      <button class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center"
+        style="width: 40px; height: 40px;" (click)="volverALista()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <app-settings-menu></app-settings-menu>
+    </div>
+  </div>
+
+  <!-- FORMULARIO -->
+  <div class="bg-white rounded-4 p-4 shadow-sm mb-4">
+    <h5 class="fw-bold mb-3">{{ editando ? 'Editar Regalo' : 'Agregar Nuevo Regalo' }}</h5>
+
+    <div class="mb-3">
+      <label class="form-label">Nombre del regalo</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoRegalo.nombre" placeholder="Ejemplo: Lavado Premium">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Descripción</label>
+      <textarea class="form-control" [(ngModel)]="nuevoRegalo.descripcion" placeholder="Describe el regalo"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Puntos Requeridos</label>
+      <input type="number" class="form-control" [(ngModel)]="nuevoRegalo.puntos_requeridos" min="1">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Imagen</label>
+      <input type="file" class="form-control mb-2" (change)="onFileSelected($event)">
+      <input type="text" class="form-control" [(ngModel)]="nuevoRegalo.imagen" placeholder="Nombre de archivo o URL">
+      <div *ngIf="nuevoRegalo.imagen || selectedFile" class="mt-2">
+        <label class="form-label">Vista previa:</label>
+        <img *ngIf="selectedFile" [src]="previewUrl" class="img-thumbnail" style="max-height: 150px;">
+        <img *ngIf="!selectedFile && nuevoRegalo.imagen" [src]="'http://localhost:3000/uploads/' + nuevoRegalo.imagen" class="img-thumbnail" style="max-height: 150px;">
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+      <button class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+      <button class="btn btn-success fw-bold" (click)="guardarNuevoRegalo()">
+        {{ editando ? 'Actualizar' : 'Agregar' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- LISTADO -->
+  <div class="bg-white rounded-4 p-4 shadow-sm">
+    <h5 class="fw-bold mb-3">Lista de Regalos</h5>
+
+    <div *ngIf="regalos.length === 0" class="text-muted">No hay regalos registrados.</div>
+
+    <div *ngFor="let regalo of regalos" class="border rounded-3 p-3 mb-2 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <div *ngIf="regalo.imagen">
+          <img [src]="'http://localhost:3000/uploads/' + regalo.imagen" alt="Imagen" width="60" height="60" class="rounded border">
+        </div>
+        <div>
+          <h6 class="mb-1 fw-semibold">{{ regalo.nombre }}</h6>
+          <p class="mb-1 text-muted">{{ regalo.descripcion }}</p>
+          <small class="text-muted">Puntos: {{ regalo.puntos_requeridos }}</small>
+          <div *ngIf="regalo.imagen">
+            <small class="text-muted d-block">Archivo: {{ regalo.imagen }}</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button class="btn-warning btn" (click)="editarRegalo(regalo)">✏️</button>
+        <button class="btn-danger btn" (click)="eliminarRegalo(regalo)">🗑️</button>
+      </div>
+    </div>
+  </div>
+</div>

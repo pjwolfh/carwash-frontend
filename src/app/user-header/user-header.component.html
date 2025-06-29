@@ -1,0 +1,46 @@
+<!-- Contenedor general con imagen de fondo -->
+<div class="user-header position-relative text-white">
+
+  <!-- Capa azul transparente -->
+  <div class="overlay"></div>
+
+  <!-- Contenido -->
+  <div class="user-info position-relative d-flex justify-content-between align-items-start p-3">
+    <div>
+      <p class="welcome m-0">Welcome,</p>
+      <h3 class="email">{{ usuario?.email }}</h3>
+      <p class="summary">
+        <strong>Services:</strong> {{ usuario?.servicios_acumulados }} &nbsp;&nbsp; 
+        <strong>Points:</strong> {{ usuario?.puntos }} pts
+      </p>
+    </div>
+
+    <div class="buttons d-flex gap-2">
+      <!-- <button class="btn btn-outline-light btn-sm" (click)="toggleQR()">
+        <i class="bi bi-qr-code-scan"></i>
+      </button> -->
+      <button class="btn btn-danger btn-sm" (click)="cerrarSesion()">
+        <i class="bi bi-box-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal QR (fuera del flujo del header) -->
+<div *ngIf="qrVisible" class="modal-backdrop-custom"></div>
+<div *ngIf="qrVisible" class="modal-wrapper">
+  <div class="modal-content-custom text-center">
+    <div class="modal-header justify-content-between">
+      <h5 class="modal-title">🚘 Tu código Carwash: <strong>{{ qrValue }}</strong></h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="toggleQR()"></button>
+    </div>
+    <div class="modal-body">
+      <img 
+        [src]="'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + qrValue" 
+        alt="QR Code"
+        class="img-fluid mx-auto d-block"
+      />
+    </div>
+  </div>
+</div>

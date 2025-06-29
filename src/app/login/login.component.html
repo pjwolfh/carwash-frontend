@@ -1,0 +1,36 @@
+<div class="container d-flex align-items-center justify-content-center min-vh-100"
+     style="background: url('assets/images/fondo-autos.jpeg') no-repeat center center / cover;">
+
+  <div class="bg-dark bg-opacity-75 rounded-4 p-4 w-100" style="max-width: 400px;">
+    <div class="text-center mb-4">
+      <img src="assets/images/logo.png" class="logo" alt="Logo" />
+      <h4 class="text-white mt-2">Bienvenido a CarwashApp</h4>
+    </div>
+
+    <form (ngSubmit)="login()" *ngIf="!mostrarFormRegistro">
+      <div class="mb-3">
+        <input type="tel" [(ngModel)]="telefono" name="telefono" class="form-control" placeholder="Número de teléfono" required />
+      </div>
+      <button type="submit" class="btn btn-warning w-100 fw-bold">Iniciar sesión</button>
+    </form>
+
+    <p class="text-white text-center mt-3">
+      ¿No tenés cuenta?
+      <a class="text-warning fw-bold" (click)="mostrarFormularioRegistro()">Regístrate aquí</a>
+    </p>
+
+    <!-- FORMULARIO DE REGISTRO -->
+    <form (ngSubmit)="registrar()" *ngIf="mostrarFormRegistro" class="mt-3">
+      <div class="mb-3">
+        <input type="email" [(ngModel)]="email" name="email" class="form-control" placeholder="Correo electrónico" required />
+      </div>
+      <div class="mb-3">
+        <input type="tel" [(ngModel)]="nuevoTelefono" name="nuevoTelefono" class="form-control" placeholder="Número de teléfono" required />
+      </div>
+      <button type="submit" class="btn btn-success w-100 fw-bold">Registrarse</button>
+      <div class="text-center mt-2">
+        <a class="text-light small" (click)="mostrarFormularioLogin()">← Volver a iniciar sesión</a>
+      </div>
+    </form>
+  </div>
+</div>

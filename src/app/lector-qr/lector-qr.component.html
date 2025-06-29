@@ -1,0 +1,40 @@
+<div class="container py-5 text-center bg-white" style="min-height: 100vh;">
+  <!-- Encabezado -->
+  <h3 class="mb-4 text-dark fw-bold">📷 Muestra tu Código QR</h3>
+  <p class="text-muted mb-4">Tu ingreso será registrado automáticamente</p>
+
+  <!-- Escáner QR -->
+  <div class="container py-4 text-center">
+    <h4 class="mb-3">Escanea tu código QR</h4>
+
+    <!-- Escáner QR con evento de escaneo -->
+    <zxing-scanner
+      [device]="currentDevice"
+      [formats]="formats"
+      (scanSuccess)="onScanSuccess($event)"
+      style="width: 100%; max-width: 400px; margin: auto; display: block;">
+    </zxing-scanner>
+
+    <!-- Botón para confirmar registro -->
+    <div class="mt-4">
+      <button (click)="registrarManual()" class="btn btn-success fw-bold" [disabled]="!scannedUserId">
+        ✅ Registrar Asistencia
+      </button>
+    </div>
+
+    <!-- Estado del escaneo -->
+    <div *ngIf="mensaje" class="mt-4">
+      <div [ngClass]="{
+            'alert alert-success fw-bold': estado === 'ok',
+            'alert alert-danger fw-bold': estado === 'error'
+          }">
+        {{ mensaje }}
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="text-muted mt-5" style="font-size: 0.9rem;">
+      Sistema automático de asistencia - CarWashApp 🚗
+    </p>
+  </div>
+</div>

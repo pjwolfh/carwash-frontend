@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+
+  * {
+    box-sizing: border-box;
+  }
+  app-root {
+    display: block;
+    overflow-x: hidden;
+  }
+  
+/* 🔥 Remueve cualquier fondo heredado en toda la app */
+html, body {
+  background: none !important;
+  background-image: none !important;
+  background-color: #f8f9fa !important; /* Fondo claro */
+}

@@ -1,0 +1,176 @@
+
+
+
+<!-- FONDO BLANCO GLOBAL -->
+<div class="container py-4" style="background-color: #eeeeee; min-height: 100vh;">
+
+    <!-- ENCABEZADO -->
+    <div class="d-flex align-items-center mb-4">
+      <img src="assets/images/user.jpg" alt="Perfil" class="rounded-circle me-3" width="60" height="60">
+      <div>
+       <h6 class="mb-0 text-secondary">Welcome Back,</h6>
+<h5 class="fw-bold" style="color: #f5c518;">{{ usuario?.nombre || 'Usuario' }}</h5>
+<p class="text-muted mt-1" *ngIf="sucursalSeleccionada?.nombre_sucursal">
+  {{ sucursalSeleccionada.nombre_sucursal }}
+</p>
+
+      </div>
+      <div class="ms-auto d-flex gap-2">
+        <!-- Botón Back solo visible si es SuperAdmin -->
+        <button 
+          *ngIf="esSuperAdmin"
+          class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center" 
+          style="width: 40px; height: 40px;"
+          (click)="regresarSuperAdmin()"
+        >
+          <i class="bi bi-arrow-left"></i>
+        </button>
+      
+        <!-- Botón Settings -->
+        <!-- Botón Settings REEMPLAZADO -->
+<app-settings-menu></app-settings-menu>
+
+      </div>
+      
+      
+    </div>
+  
+    <!-- BOTONES OPCIONES -->
+    <!-- <div class="d-flex gap-2 mb-4">
+      <button class="btn btn-secondary px-4 py-2 fw-semibold rounded-pill" style="font-size: 0.75rem;">OPCIÓN 1</button>
+      <button class="btn btn-secondary px-4 py-2 fw-semibold rounded-pill" style="font-size: 0.75rem;">OPCIÓN 2</button>
+    </div> -->
+
+    <!-- BALANCE -->
+    <div class="text-center my-4">
+      <h5 class="fw-bold">Balance Diario: $ {{ balanceDiario }}</h5>
+    </div>
+  
+    <!-- CAJA BLANCA -->
+    <div class="bg-white text-dark rounded-4 p-4 shadow-sm mb-4">
+  
+      <!-- ➕ AGREGAR SUCURSAL -->
+      <div class="text-center mb-4">
+        <div 
+          class="btn fw-bold rounded-pill px-5 py-2 text-center mx-auto d-block"
+          style="background-color: #f5c518; width: fit-content;"
+          (click)="abrirModalAgregar()"
+        >
+          <div>Agregar Sucursal <i class="bi bi-plus-circle ms-2"></i></div>
+          <small class="text-dark d-block mt-1" style="font-size: 0.75rem;">
+            Total: {{ sucursales.length }} sucursales
+          </small>
+        </div>
+      </div>
+      
+      
+      
+<!-- 🏢 LISTA DE SUCURSALES -->
+<div class="container">
+    <div class="row">
+      <div class="col-12 mb-3" *ngFor="let sucursal of sucursales">
+        
+        <div 
+          class="p-3 rounded-pill d-flex justify-content-between align-items-center shadow-sm"
+          style="background-color: #f2f2f2; cursor: pointer;"
+          (click)="irASucursal(sucursal)">
+        >
+  
+          <div>
+            <h6 class="mb-1 fw-semibold">{{ sucursal.nombre_sucursal }}
+            </h6>
+            <p class="mb-0 text-muted">Ventas de hoy: ${{ sucursal.ventas_dia || 0 }}</p>
+
+          </div>
+  
+          <button 
+            class="btn rounded-circle" 
+            style="background-color: #f5c518;" 
+            (click)="abrirFicha(sucursal); $event.stopPropagation()">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+  
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  
+
+<!-- 🪪 FICHA TÉCNICA DE LA SUCURSAL -->
+<div *ngIf="mostrarFichaTecnica" class="modal fade show d-block" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 rounded-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-warning">📌 Ficha técnica: {{ sucursalSeleccionada?.nombre }}</h5>
+                <button class="btn-close" (click)="cerrarFicha()"></button>
+            </div>
+            <div class="modal-body">
+  <p><strong>Ventas del día:</strong> ${{ sucursalSeleccionada?.ventas_dia || 0 }}</p>
+  <p><strong>Ventas de la semana:</strong> ${{ sucursalSeleccionada?.ventas_semana || 0 }}</p>
+  <p><strong>Ventas del mes:</strong> ${{ sucursalSeleccionada?.ventas_mes || 0 }}</p>
+  <p><strong>Empleados activos:</strong> {{ sucursalSeleccionada?.empleados || 0 }}</p>
+</div>
+
+            <div class="modal-footer border-0 d-flex justify-content-between">
+  <div>
+    <button class="btn btn-outline-danger me-2" (click)="eliminarSucursal()">🗑️ Eliminar</button>
+    <button class="btn btn-outline-warning" (click)="editarSucursal()">✏️ Editar</button>
+  </div>
+  <button class="btn btn-secondary" (click)="cerrarFicha()">Cerrar</button>
+</div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 🧾 MODAL AGREGAR -->
+<div class="modal fade show d-block" tabindex="-1" *ngIf="mostrarModalAgregar"
+  style="background-color: rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 rounded-4 border-0">
+      <h5 class="fw-bold mb-3">Agregar Nueva Sucursal</h5>
+
+      <div class="mb-3">
+        <label class="form-label">Nombre de la Sucursal</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevaSucursal.nombre_sucursal">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Dirección</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevaSucursal.direccion">
+      </div>
+
+      <div class="mb-3">
+  <label class="form-label">Ubicación GPS (opcional)</label>
+  <input type="text" class="form-control mb-2" [(ngModel)]="nuevaSucursal.ubicacion_gps">
+  <button class="btn btn-sm btn-outline-primary" type="button" (click)="obtenerUbicacionActual()">
+    Usar mi ubicación actual
+  </button>
+</div>
+
+
+      <div class="mb-3">
+        <label class="form-label">Nombre del Encargado</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevaSucursal.encargado_nombre">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Teléfono del Encargado</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevaSucursal.encargado_telefono">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email del Encargado</label>
+        <input type="email" class="form-control" [(ngModel)]="nuevaSucursal.encargado_email">
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" (click)="mostrarModalAgregar = false">Cancelar</button>
+        <button class="btn btn-success fw-bold" (click)="guardarSucursal()">Agregar</button>
+      </div>
+
+    </div>
+  </div>
+</div>

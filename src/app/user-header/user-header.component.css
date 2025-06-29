@@ -1,0 +1,111 @@
+.user-header {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 1rem;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .welcome {
+    font-size: 0.9rem;
+    margin: 0;
+    color: #ccc;
+  }
+  
+  .email {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    color: #f8f9fa;
+  }
+  
+  .summary {
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    color: #ffc107;
+  }
+  
+  .buttons button {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+
+
+  .modal-backdrop-custom {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 99998 !important;
+  }
+  
+  .modal-wrapper {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999 !important;
+  }
+  
+  .modal-content-custom {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 90vw;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    margin-top: 80%;
+  }
+  
+  .modal-title{
+    color: black;
+    font-weight: 800;
+  }
+  
+
+
+  
+  
+  .user-header {
+  background-image: url('https://www.wheelzsplash.com/wp-content/uploads/car-wash-advantage.jpeg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  min-height: 160px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 51, 102, 0.7); /* Capa azul con opacidad */
+  z-index: 0;
+}
+
+.user-info {
+  position: relative;
+  z-index: 1;
+}
+
+.email {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.summary {
+  font-size: 0.95rem;
+}
+
+.btn {
+  border-radius: 0.5rem;
+}

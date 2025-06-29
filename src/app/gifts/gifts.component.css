@@ -1,0 +1,36 @@
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.card {
+  border-radius: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+}
+
+.card-text {
+  font-size: 0.95rem;
+}
+
+.btn-warning {
+  font-weight: bold;
+  border-radius: 0.5rem;
+}
+
+.text-primary {
+  color: #007bff !important;
+}
