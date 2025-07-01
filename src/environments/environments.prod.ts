@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://carwash-app-production.up.railway.app'
+  apiUrl: 'https://carwash-app-production.up.railway.app'
 };
