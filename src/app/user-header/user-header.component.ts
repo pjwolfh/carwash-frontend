@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-user-header',
@@ -14,7 +15,7 @@ export class UserHeaderComponent implements OnInit {
   usuario: any = {};
   qrVisible = false;
   qrValue = '';
-  apiUrl = 'http://localhost:3000/api/usuarios/codigo/';
+  apiUrl = `${environment.apiUrl}/api/usuarios/codigo/`;
 
   constructor(private router: Router, private http: HttpClient) {}
 

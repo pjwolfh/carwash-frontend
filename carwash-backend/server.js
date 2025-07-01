@@ -16,9 +16,6 @@ const canjesRoutes = require('./routes/canjes');
 const ventasRoutes = require('./routes/ventas');
 const dellersRoutes = require('./routes/dellers');
 
-
-
-
 require('./db/connection'); // conexión a la base de datos
 
 // 🌍 Configurar variables de entorno
@@ -47,14 +44,10 @@ app.use('/api/sucursales', sucursalesRoutes);
 app.use('/api/empleados', empleadosRoutes);
 app.use('/api/asistencias', asistenciaRoutes);
 app.use('/api/servicios', serviciosRoutes);
-
 app.use('/api/regalos', regalosRoutes);
 app.use('/api/canjes', canjesRoutes);
 app.use('/api/ventas', ventasRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
-
-
-
 // ✅ Ruta de prueba (opcional)
 app.get('/', (req, res) => {
   res.send('✅ API CarWash funcionando correctamente');

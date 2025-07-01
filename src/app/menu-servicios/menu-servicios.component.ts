@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { SettingsMenuComponent } from '../settings-menu/settings-menu.component';
 import { ServiciosService } from '../services/servicios.service';
 import { Subscription } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-menu-servicios',
@@ -27,7 +28,7 @@ export class MenuServiciosComponent implements OnDestroy {
     imagen: '',
     puntos: 0
   };
-
+environment = environment;
   modoEditar: boolean = false;
   indiceEditar: number | null = null;
 

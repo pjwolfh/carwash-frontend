@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-gifts',
   standalone: true,
@@ -10,8 +10,8 @@ import Swal from 'sweetalert2';
   templateUrl: './gifts.component.html',
 })
 export class GiftsComponent implements OnInit {
-  apiUrl = 'http://localhost:3000/uploads/';
-  endpointApi = 'http://localhost:3000/api/';
+  apiUrl = `${environment.apiUrl}/uploads/`;
+  endpointApi = `${environment.apiUrl}/api/`;
   regalos: any[] = [];
   usuario: any = {};
   cargandoCanje: number | null = null;

@@ -5,7 +5,7 @@ import { UserHeaderComponent } from '../user-header/user-header.component';
 import { GiftsComponent } from '../gifts/gifts.component';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',

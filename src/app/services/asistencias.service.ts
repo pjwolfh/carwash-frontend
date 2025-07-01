@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AsistenciasService {
 
-  private apiUrl = 'http://localhost:3000/api/asistencias'; // Cambia si tu backend usa otro puerto
+  private apiUrl = `${environment.apiUrl}/api/asistencias'; // Cambia si tu backend usa otro puerto
 
   constructor(private http: HttpClient) {}
 

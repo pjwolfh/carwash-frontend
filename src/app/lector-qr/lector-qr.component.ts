@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { HttpClient } from '@angular/common/http';
 import { BarcodeFormat } from '@zxing/library';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-lector-qr',
   standalone: true,
@@ -47,7 +47,7 @@ export class LectorQrComponent implements OnInit {
 
     this.scannedRecently = true;
 
-    this.http.post('http://localhost:3000/api/asistencias', { user_id: this.scannedUserId }).subscribe({
+    this.http.post(`${environment.apiUrl}/api/asistencias`, { user_id: this.scannedUserId }).subscribe({
       next: (res: any) => {
         this.mensaje = `✅ Bienvenido, ${res.nombre_empleado || 'Empleado'}. Entrada registrada con éxito.`;
         this.estado = 'ok';

@@ -45,7 +45,7 @@
             style="background-color: #f2f2f2;">
 
             <div class="d-flex align-items-center">
-              <img *ngIf="servicio.imagen" [src]="'http://localhost:3000' + servicio.imagen" alt="Imagen Servicio"
+              <img *ngIf="servicio.imagen" [src]="`${environment.apiUrl}` + servicio.imagen" alt="Imagen Servicio"
                  width="50" height="50" class="rounded-circle me-3">
 
               <div>

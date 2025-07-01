@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { SettingsMenuComponent } from '../settings-menu/settings-menu.component';
 import Swal from 'sweetalert2';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-sucursal-detalle',
@@ -52,7 +53,7 @@ export class SucursalDetalleComponent implements OnInit {
   }
 
   cargarVentasPendientes() {
-    this.http.get<any>(`http://localhost:3000/api/ventas/pendientes/${this.idSucursal}`).subscribe({
+    this.http.get<any>(`${environment.apiUrl}/api/ventas/pendientes/${this.idSucursal}`).subscribe({
       next: (res) => {
         const nuevoTotal = res.pendientes || 0;
 
@@ -130,7 +131,7 @@ export class SucursalDetalleComponent implements OnInit {
   }
 
   obtenerNombreSucursal(id: string): void {
-    this.http.get<any>(`http://localhost:3000/api/sucursales/id/${id}`).subscribe({
+    this.http.get<any>(`${environment.apiUrl}/api/sucursales/id/${id}`).subscribe({
       next: (data) => {
         this.nombreSucursal = data.nombre_sucursal;
         console.log('🏷️ Nombre de sucursal:', this.nombreSucursal);

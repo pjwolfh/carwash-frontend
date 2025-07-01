@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angul
 import { CommonModule } from '@angular/common';
 import { SettingsMenuComponent } from '../settings-menu/settings-menu.component';
 import Swal from 'sweetalert2';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-dellers',
@@ -46,7 +47,7 @@ export class DellersComponent implements OnInit {
   }
 
   cargarDellers() {
-    this.http.get<any[]>('http://localhost:3000/api/dellers').subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/api/dellers`).subscribe({
       next: (data) => this.dellers = data,
       error: (err) => {
         console.error('❌ Error al cargar Dellers:', err);
@@ -62,7 +63,7 @@ export class DellersComponent implements OnInit {
     };
 
     if (this.editandoId) {
-      this.http.put(`http://localhost:3000/api/dellers/${this.editandoId}`, nuevo).subscribe({
+      this.http.put(`${environment.apiUrl}/api/dellers/${this.editandoId}`, nuevo).subscribe({
         next: () => {
           this.resetFormulario();
           this.cargarDellers();
@@ -74,7 +75,7 @@ export class DellersComponent implements OnInit {
         }
       });
     } else {
-      this.http.post<any>('http://localhost:3000/api/dellers', nuevo).subscribe({
+      this.http.post<any>(`${environment.apiUrl}/api/dellers`, nuevo).subscribe({
         next: (res) => {
           this.resetFormulario();
           this.cargarDellers();
@@ -109,7 +110,7 @@ export class DellersComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.delete(`http://localhost:3000/api/dellers/${id}`).subscribe({
+        this.http.delete(`${environment.apiUrl}/api/dellers/${id}`).subscribe({
           next: () => {
             this.cargarDellers();
             Swal.fire('✅ Eliminado', 'El deller ha sido eliminado.', 'success');

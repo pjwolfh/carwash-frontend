@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SucursalService {
-  private apiUrl = 'http://localhost:3000/api/sucursales';
+  private apiUrl = `${environment.apiUrl}/api/sucursales`;
 
   constructor(private http: HttpClient) {}
 
@@ -36,7 +37,7 @@ export class SucursalService {
     return this.http.get<any>(`${this.apiUrl}/resumen/${idSucursal}`);
   }
   obtenerSucursalesPorUsuario(idUsuario: number) {
-    return this.http.get<any[]>(`http://localhost:3000/api/usuarios/${idUsuario}/sucursales`);
+    return this.http.get<any[]>(`${environment.apiUrl}/api/usuarios/${idUsuario}/sucursales`);
   }
   
 }

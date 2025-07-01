@@ -42,7 +42,7 @@
       <div *ngIf="nuevoRegalo.imagen || selectedFile" class="mt-2">
         <label class="form-label">Vista previa:</label>
         <img *ngIf="selectedFile" [src]="previewUrl" class="img-thumbnail" style="max-height: 150px;">
-        <img *ngIf="!selectedFile && nuevoRegalo.imagen" [src]="'http://localhost:3000/uploads/' + nuevoRegalo.imagen" class="img-thumbnail" style="max-height: 150px;">
+        <img *ngIf="!selectedFile && nuevoRegalo.imagen" [src]="`${environment.apiUrl}/uploads/` + nuevoRegalo.imagen" class="img-thumbnail" style="max-height: 150px;">
       </div>
     </div>
 
@@ -63,7 +63,7 @@
     <div *ngFor="let regalo of regalos" class="border rounded-3 p-3 mb-2 d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-3">
         <div *ngIf="regalo.imagen">
-          <img [src]="'http://localhost:3000/uploads/' + regalo.imagen" alt="Imagen" width="60" height="60" class="rounded border">
+          <img [src]="`${environment.apiUrl}/uploads/' + regalo.imagen" alt="Imagen" width="60" height="60" class="rounded border">
         </div>
         <div>
           <h6 class="mb-1 fw-semibold">{{ regalo.nombre }}</h6>

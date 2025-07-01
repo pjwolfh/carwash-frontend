@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RegalosService } from '../services/regalos.service';
 import { SettingsMenuComponent } from '../settings-menu/settings-menu.component';
 import Swal from 'sweetalert2';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-regalos',
@@ -22,6 +23,7 @@ export class RegalosComponent implements OnInit {
     imagen: ''
   };
 
+ environment = environment;
   editando = false;
   regaloEnEdicion: any = null;
   selectedFile: File | null = null;

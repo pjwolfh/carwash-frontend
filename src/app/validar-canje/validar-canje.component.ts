@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { BarcodeFormat } from '@zxing/library';
 import { SettingsMenuComponent } from '../settings-menu/settings-menu.component';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-validar-canje',
@@ -39,7 +40,7 @@ selectedDevice: MediaDeviceInfo | undefined = undefined;
       return;
     }
 
-    this.http.post('http://localhost:3000/api/canjes/validar', { codigo: this.codigo }).subscribe({
+    this.http.post(`${environment.apiUrl}/api/canjes/validar`, { codigo: this.codigo }).subscribe({
       next: (res: any) => {
         this.canje = res.canje;
         Swal.fire('✅ Canje encontrado', 'Puedes proceder a entregarlo.', 'info');
@@ -53,7 +54,7 @@ selectedDevice: MediaDeviceInfo | undefined = undefined;
   }
 
   entregarCanje() {
-    this.http.post('http://localhost:3000/api/canjes/entregar', { codigo: this.codigo }).subscribe({
+    this.http.post(`${environment.apiUrl}/api/canjes/entregar`, { codigo: this.codigo }).subscribe({
       next: () => {
         Swal.fire('🎉 Canje entregado', 'El regalo ha sido marcado como entregado.', 'success');
         if (this.canje) this.canje.estado = 'entregado';

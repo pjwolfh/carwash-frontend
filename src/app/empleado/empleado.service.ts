@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class EmpleadoService {
-  private baseUrl = 'http://localhost:3000/api/empleados';
+  private baseUrl = `${environment.apiUrl}/api/empleados`;
 
   constructor(private http: HttpClient) {}
 
@@ -37,6 +37,6 @@ export class EmpleadoService {
 
   // ✅ Este método trae el historial de asistencia semanal
   obtenerHistorial(user_id: string): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:3000/api/asistencias/historial/${user_id}`);
+    return this.http.get<any[]>(`${environment.apiUrl}/api/asistencias/historial/${user_id}`);
   }
 }

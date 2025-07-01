@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { UserHeaderComponent } from '../user-header/user-header.component';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-seleccionar-sucursal',
@@ -29,7 +30,7 @@ export class SeleccionarSucursalComponent implements OnInit {
   }
 
   obtenerSucursales(): void {
-    this.http.get<any[]>(`http://localhost:3000/api/usuarios/${this.usuario.id}/sucursales`).subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/api/usuarios/${this.usuario.id}/sucursales`).subscribe({
       next: (data) => {
         this.sucursales = data;
       },

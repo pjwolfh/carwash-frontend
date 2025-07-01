@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { SettingsMenuComponent } from '../settings-menu/settings-menu.component';
+import { environment } from '../../environments/environment';
 
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
@@ -70,7 +71,7 @@ ngOnInit(): void {
       fechaHasta: this.fechaHasta
     };
 
-    this.http.post<any[]>('http://localhost:3000/api/ventas/historial', body).subscribe({
+    this.http.post<any[]>(`${environment.apiUrl}/api/ventas/historial`, body).subscribe({
       next: (data) => {
         this.ventas = data;
         this.aplicarFiltroEstado();
@@ -132,7 +133,7 @@ const body = {
 };
 
 
-    this.http.post('http://localhost:3000/api/ventas/registrar', body).subscribe({
+    this.http.post(`${environment.apiUrl}/api/ventas/registrar`, body).subscribe({
       next: (res: any) => {
         Swal.fire('🎉 ¡Venta registrada!', 'Puntos asignados al cliente.', 'success');
         this.idServicio = '';
@@ -158,7 +159,7 @@ const body = {
       return;
     }
 
-    this.http.post('http://localhost:3000/api/ventas/confirmar', body).subscribe({
+    this.http.post(`${environment.apiUrl}/api/ventas/confirmar`, body).subscribe({
       next: (res: any) => {
         Swal.fire('✅ Confirmado', res.mensaje, 'success');
         this.cargarHistorialVentas();
@@ -171,7 +172,7 @@ const body = {
   }
 
   declinarVenta(id_venta: number) {
-    this.http.post('http://localhost:3000/api/ventas/declinar', { id_venta }).subscribe({
+    this.http.post(`${environment.apiUrl}/api/ventas/declinar`, { id_venta }).subscribe({
       next: (res: any) => {
         Swal.fire('⚠️ Declinado', res.mensaje, 'info');
         this.cargarHistorialVentas();
@@ -238,7 +239,7 @@ const body = {
     id_sucursal: this.idSucursal
   };
 
-  this.http.post('http://localhost:3000/api/ventas/registrar', body).subscribe({
+  this.http.post(`${environment.apiUrl}/api/ventas/registrar`, body).subscribe({
     next: (res: any) => {
       Swal.fire('🎉 ¡Venta por QR registrada!', 'Puntos asignados al cliente.', 'success');
       this.cargarHistorialVentas();

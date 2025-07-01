@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { UsuarioService } from '../services/usuario.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -62,7 +63,7 @@ export class LoginComponent {
 
         if (usuario.rol_id === 1) {
           // Cliente - verificar sucursales
-          this.http.get<any[]>(`http://localhost:3000/api/usuarios/${usuario.id}/sucursales`).subscribe({
+          this.http.get<any[]>(`${environment.apiUrl}/api/usuarios/${usuario.id}/sucursales`).subscribe({
             next: (sucursales) => {
               if (sucursales.length === 1) {
                 localStorage.setItem('id_sucursal_activa', sucursales[0].id_sucursal);
