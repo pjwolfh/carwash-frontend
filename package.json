@@ -23,6 +23,7 @@
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.5",
     "browser-image-compression": "^2.0.2",
+    "cors": "^2.8.5",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
     "multer": "^2.0.1",
