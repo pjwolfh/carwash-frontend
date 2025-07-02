@@ -28,17 +28,23 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
 // 🌐 Configurar CORS
-app.use(cors({
+const corsOptions = {
   origin: [
     'https://carwash-app-three.vercel.app',
     'https://carwash-app-git-main-pjs-projects-5248e35c.vercel.app'
   ],
-  credentials: true
-}));
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));  // preflight
 
 // 🧩 Middlewares
-app.use(express.json({ limit: '5mb' })); // permite imágenes más grandes
+app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 
 // ✅ Servir imágenes
