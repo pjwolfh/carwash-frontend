@@ -28,7 +28,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
 // 🌐 Configurar CORS
 const corsOptions = {
   origin: [
@@ -40,17 +39,20 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
+// ✅ Usar CORS con opciones
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));  // preflight
 
-// 🧩 Middlewares
+// ✅ Middleware para preflight (opciones CORS)
+app.options('*', cors(corsOptions));
+
+// 🧩 Middlewares para parsing
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 
-// ✅ Servir imágenes
+// ✅ Servir archivos estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
-// 📦 Rutas
+// 📦 Rutas de la API
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/clientes', clientesRoutes);
@@ -64,7 +66,7 @@ app.use('/api/canjes', canjesRoutes);
 app.use('/api/ventas', ventasRoutes);
 app.use('/api/dellers', dellersRoutes);
 
-// ✅ Ruta de prueba (opcional)
+// ✅ Ruta de prueba
 app.get('/', (req, res) => {
   res.send('✅ API CarWash funcionando correctamente');
 });
