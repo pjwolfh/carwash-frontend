@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   servicios: any[] = [];
   servicioSeleccionado: any = null;
-  apiUrl = 'http://localhost:3000';
+  apiUrl = `${environment.apiUrl}`;
 
   // 🧾 Modal QR
   qrVisible = false;
