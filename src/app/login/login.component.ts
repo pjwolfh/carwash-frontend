@@ -25,96 +25,96 @@ export class LoginComponent {
   router = inject(Router);
 
   login() {
-    if (!this.telefono.trim()) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Campo vacío',
-        text: 'Por favor, ingrese su número de teléfono',
-        confirmButtonColor: '#f5b400'
-      });
-      return;
-    }
+  if (!this.telefono.trim()) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Campo vacío',
+      text: 'Por favor, ingrese su número de teléfono',
+      confirmButtonColor: '#f5b400'
+    });
+    return;
+  }
 
-    this.usuarioService.iniciarSesion(this.telefono).subscribe({
-      next: (usuarioBackend) => {
-        const id_cliente = usuarioBackend.id_cliente || (
-          [2, 3].includes(usuarioBackend.rol_id) ? usuarioBackend.id : null
-        );
+  // CORREGIDO: quitar el `/api` extra que está dentro de environment.apiUrl
+  // y en environment.ts dejar solo: 'http://localhost:3000'
+  this.usuarioService.iniciarSesion(this.telefono).subscribe({
+    next: (usuarioBackend) => {
+      const id_cliente = usuarioBackend.id_cliente || (
+        [2, 3].includes(usuarioBackend.rol_id) ? usuarioBackend.id : null
+      );
 
-        const usuario = {
-          id: usuarioBackend.id,
-          nombre: usuarioBackend.nombre_contacto || 'Usuario',
-          telefono: usuarioBackend.telefono,
-          email: usuarioBackend.email || '',
-          rol_id: usuarioBackend.rol_id,
-          rol: this.obtenerRolTexto(usuarioBackend.rol_id),
-          id_cliente,
-          user_id: usuarioBackend.user_id,
-          hora_entrada: usuarioBackend.hora_entrada || '',
-          hora_salida: usuarioBackend.hora_salida || '',
-          dia_descanso: usuarioBackend.dia_descanso || '',
-          id_sucursal: usuarioBackend.id_sucursal || null
-        };
+      const usuario = {
+        id: usuarioBackend.id,
+        nombre: usuarioBackend.nombre_contacto || 'Usuario',
+        telefono: usuarioBackend.telefono,
+        email: usuarioBackend.email || '',
+        rol_id: usuarioBackend.rol_id,
+        rol: this.obtenerRolTexto(usuarioBackend.rol_id),
+        id_cliente,
+        user_id: usuarioBackend.user_id,
+        hora_entrada: usuarioBackend.hora_entrada || '',
+        hora_salida: usuarioBackend.hora_salida || '',
+        dia_descanso: usuarioBackend.dia_descanso || '',
+        id_sucursal: usuarioBackend.id_sucursal || null
+      };
 
-        localStorage.setItem('usuario', JSON.stringify(usuario));
-        localStorage.setItem('rol_usuario', usuario.rol_id.toString());
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+      localStorage.setItem('rol_usuario', usuario.rol_id.toString());
 
-        console.log('🧠 Usuario guardado:', usuario);
+      console.log('🧠 Usuario guardado:', usuario);
 
-        if (usuario.rol_id === 1) {
-          // Cliente - verificar sucursales
-          this.http.get<any[]>(`${environment.apiUrl}/api/usuarios/${usuario.id}/sucursales`).subscribe({
-            next: (sucursales) => {
-              if (sucursales.length === 1) {
-                localStorage.setItem('id_sucursal_activa', sucursales[0].id_sucursal);
-                this.router.navigate(['/app/home']);
-              } else if (sucursales.length > 1) {
-                localStorage.setItem('sucursales_cliente', JSON.stringify(sucursales));
-                this.router.navigate(['/app/seleccionar-sucursal']);
-              } else {
-                Swal.fire('⚠️ Error', 'No estás asignado a ninguna sucursal. Consulta al administrador.', 'warning');
-              }
-            },
-            error: (err) => {
-              console.error('❌ Error al obtener sucursales:', err);
-              Swal.fire('Error', 'No se pudieron obtener las sucursales.', 'error');
+      if (usuario.rol_id === 1) {
+        this.http.get<any[]>(`${environment.apiUrl}/usuarios/${usuario.id}/sucursales`).subscribe({
+          next: (sucursales) => {
+            if (sucursales.length === 1) {
+              localStorage.setItem('id_sucursal_activa', sucursales[0].id_sucursal.toString());
+              this.router.navigate(['/app/home']);
+            } else if (sucursales.length > 1) {
+              localStorage.setItem('sucursales_cliente', JSON.stringify(sucursales));
+              this.router.navigate(['/app/seleccionar-sucursal']);
+            } else {
+              Swal.fire('⚠️ Error', 'No estás asignado a ninguna sucursal. Consulta al administrador.', 'warning');
             }
-          });
-
-        } else {
-          // Otros roles
-          switch (usuario.rol_id) {
-            case 2: this.router.navigate(['/app/clientes']); break;      // SuperAdmin
-            case 3: this.router.navigate(['/app/sucursales']); break;    // Dueño
-            case 4: this.router.navigate(['/app/panel-empleado']); break;// Empleado
-            case 5: this.router.navigate(['/app/sucursales']); break;   // Coordinador
-            default: this.router.navigate(['/app/home']);
+          },
+          error: (err) => {
+            console.error('❌ Error al obtener sucursales:', err);
+            Swal.fire('Error', 'No se pudieron obtener las sucursales.', 'error');
           }
-        }
-      },
-      error: (err) => {
-        if (err.status === 404) {
-          Swal.fire({
-            icon: 'info',
-            title: 'Usuario no registrado',
-            text: 'Este número no está registrado. Puedes crear una cuenta nueva.',
-            confirmButtonText: 'Registrar',
-            confirmButtonColor: '#007bff'
-          }).then(() => {
-            this.nuevoTelefono = this.telefono;
-            this.mostrarFormularioRegistro();
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudo iniciar sesión',
-            confirmButtonColor: '#dc3545'
-          });
+        });
+      } else {
+        switch (usuario.rol_id) {
+          case 2: this.router.navigate(['/app/clientes']); break;
+          case 3: this.router.navigate(['/app/sucursales']); break;
+          case 4: this.router.navigate(['/app/panel-empleado']); break;
+          case 5: this.router.navigate(['/app/sucursales']); break;
+          default: this.router.navigate(['/app/home']);
         }
       }
-    });
-  }
+    },
+    error: (err) => {
+      if (err.status === 404) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Usuario no registrado',
+          text: 'Este número no está registrado. Puedes crear una cuenta nueva.',
+          confirmButtonText: 'Registrar',
+          confirmButtonColor: '#007bff'
+        }).then(() => {
+          this.nuevoTelefono = this.telefono;
+          this.mostrarFormularioRegistro();
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo iniciar sesión',
+          confirmButtonColor: '#dc3545'
+        });
+      }
+    }
+  });
+}
+
 
   obtenerRolTexto(rol_id: number): string {
     switch (rol_id) {

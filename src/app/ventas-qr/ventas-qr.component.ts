@@ -215,13 +215,7 @@ const body = {
     doc.save(`ventas_${this.idSucursal}.pdf`);
   }
 
-  abrirQrScanner() {
-    if (this.idSucursal) {
-      this.router.navigate(['/app/sucursal', this.idSucursal, 'ventas-qr']);
-    } else {
-      Swal.fire('Error', 'Sucursal no definida', 'error');
-    }
-  }
+
 
   regresar() {
     if (this.idSucursal) {
